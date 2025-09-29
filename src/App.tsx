@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { MotionConfig } from 'framer-motion'
 import { AuthProvider } from './contexts/AuthContext'
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import AuthenticatedLayout from './components/layout/AuthenticatedLayout'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import Home from './pages/public/Home'
@@ -25,19 +26,38 @@ function App() {
       <AuthProvider>
         <Router>
           <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-1">
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogPost />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                
-                {/* Authenticated Routes */}
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<>
+                <Header />
+                <Home />
+                <Footer />
+              </>} />
+              <Route path="/about" element={<>
+                <Header />
+                <About />
+                <Footer />
+              </>} />
+              <Route path="/pricing" element={<>
+                <Header />
+                <Pricing />
+                <Footer />
+              </>} />
+              <Route path="/blog" element={<>
+                <Header />
+                <Blog />
+                <Footer />
+              </>} />
+              <Route path="/blog/:slug" element={<>
+                <Header />
+                <BlogPost />
+                <Footer />
+              </>} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              
+              {/* Authenticated Routes */}
+              <Route element={<AuthenticatedLayout />}>
                 <Route 
                   path="/dashboard" 
                   element={
@@ -86,9 +106,8 @@ function App() {
                     </ProtectedRoute>
                   } 
                 />
-              </Routes>
-            </main>
-            <Footer />
+              </Route>
+            </Routes>
           </div>
         </Router>
       </AuthProvider>
