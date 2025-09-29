@@ -4,7 +4,12 @@ import { motion } from 'framer-motion'
 import { Menu, X, Rocket, User, LogOut, Settings, CreditCard } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 
-const Header: React.FC = () => {
+// Add the prop interface
+interface HeaderProps {
+  onMenuClick?: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const location = useLocation()
@@ -128,7 +133,10 @@ const Header: React.FC = () => {
 
           {/* Mobile menu button */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => {
+              if (onMenuClick) onMenuClick();
+              setIsMenuOpen(!isMenuOpen);
+            }}
             className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
